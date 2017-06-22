@@ -340,7 +340,7 @@ class AudioProcessingImpl : public AudioProcessing {
 
   // Hold the last config written with AecDump for avoiding writing
   // the same config twice.
-  InternalAPMConfig apm_config_for_aec_dump_ GUARDED_BY(crit_capture_);
+  //InternalAPMConfig apm_config_for_aec_dump_ GUARDED_BY(crit_capture_);
 
   // Critical sections.
   rtc::CriticalSection crit_render_ ACQUIRED_BEFORE(crit_capture_);

@@ -1975,7 +1975,7 @@ void AudioProcessingImpl::UpdateHistogramsOnCallEnd() {
 }
 
 void AudioProcessingImpl::WriteAecDumpConfigMessage(bool forced) {
-  if (!aec_dump_) {
+  /* if (!aec_dump_) {
     return;
   }
   std::string experiments_description =
@@ -2035,6 +2035,7 @@ void AudioProcessingImpl::WriteAecDumpConfigMessage(bool forced) {
   }
   aec_dump_->WriteConfig(apm_config);
   apm_config_for_aec_dump_ = apm_config;
+  */
 }
 
 void AudioProcessingImpl::RecordUnprocessedCaptureStream(
