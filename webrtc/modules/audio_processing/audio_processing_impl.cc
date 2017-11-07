@@ -16,7 +16,7 @@
 
 #include "webrtc/base/checks.h"
 #include "webrtc/base/logging.h"
-#include "webrtc/base/platform_file.h"
+//#include "webrtc/base/platform_file.h"
 #include "webrtc/base/trace_event.h"
 #include "webrtc/common_audio/audio_converter.h"
 #include "webrtc/common_audio/channel_buffer.h"
@@ -1672,11 +1672,11 @@ int AudioProcessingImpl::StartDebugRecording(FILE* handle,
   rtc::CritScope cs_render(&crit_render_);
   rtc::CritScope cs_capture(&crit_capture_);
 
+#ifdef WEBRTC_AUDIOPROC_DEBUG_DUMP
   if (handle == nullptr) {
-    return kNullPointerError;
+	  return kNullPointerError;
   }
 
-#ifdef WEBRTC_AUDIOPROC_DEBUG_DUMP
   debug_dump_.num_bytes_left_for_log_ = max_log_size_bytes;
 
   // Stop any ongoing recording.
@@ -1703,7 +1703,14 @@ int AudioProcessingImpl::StartDebugRecordingForPlatformFile(
   // Run in a single-threaded manner.
   rtc::CritScope cs_render(&crit_render_);
   rtc::CritScope cs_capture(&crit_capture_);
-  FILE* stream = rtc::FdopenPlatformFileForWriting(handle);
+
+  FILE* stream =
+		#if WEBRTC_AUDIOPROC_DEBUG_DUMP
+			  rtc::FdopenPlatformFileForWriting(handle);
+		#else
+			  nullptr;
+		#endif
+
   return StartDebugRecording(stream, -1);
 }
 

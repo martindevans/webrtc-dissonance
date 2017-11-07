@@ -67,7 +67,14 @@ int64_t SystemTimeNanos() {
   static volatile LONG last_timegettime = 0;
   static volatile int64_t num_wrap_timegettime = 0;
   volatile LONG* last_timegettime_ptr = &last_timegettime;
-  DWORD now = timeGetTime();
+
+  DWORD now =
+		#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+			  (DWORD)(GetTickCount64() % std::numeric_limits<DWORD>::max());
+		#else
+			timeGetTime();
+		#endif
+
   // Atomically update the last gotten time
   DWORD old = InterlockedExchange(last_timegettime_ptr, now);
   if (now < old) {

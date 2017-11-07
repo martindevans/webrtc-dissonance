@@ -150,7 +150,11 @@ LogMessage::LogMessage(const char* file,
       case ERRCTX_ERRNO:
         tmp << " " << strerror(err);
         break;
-#ifdef WEBRTC_WIN
+#ifdef WEBRTC_WIN && defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+
+		//Do nothing, we don't care about logging
+
+#elif WEBRTC_WIN
       case ERRCTX_HRESULT: {
         char msgbuf[256];
         DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM;
@@ -308,7 +312,7 @@ void LogMessage::ConfigureLogging(const char* params) {
     }
   }
 
-#if defined(WEBRTC_WIN)
+#if defined(WEBRTC_WIN) && !(defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP))
   if ((LS_NONE != debug_level) && !::IsDebuggerPresent()) {
     // First, attempt to attach to our parent's console... so if you invoke
     // from the command line, we'll see the output there.  Otherwise, create
@@ -365,7 +369,7 @@ void LogMessage::OutputToDebug(const std::string& str,
     CFRelease(key);
   }
 #endif
-#if defined(WEBRTC_WIN)
+#if defined(WEBRTC_WIN) && !(defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP))
   // Always log to the debugger.
   // Perhaps stderr should be controlled by a preference, as on Mac?
   OutputDebugStringA(str.c_str());
