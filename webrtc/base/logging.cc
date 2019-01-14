@@ -150,10 +150,10 @@ LogMessage::LogMessage(const char* file,
       case ERRCTX_ERRNO:
         tmp << " " << strerror(err);
         break;
-#ifdef WEBRTC_WIN && defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
-
+#if defined(WEBRTC_WIN) && defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
 		//Do nothing, we don't care about logging
-
+#elif defined(PLATFORM_LUMIN)
+    //Do nothing, we don't care about logging
 #elif WEBRTC_WIN
       case ERRCTX_HRESULT: {
         char msgbuf[256];
@@ -383,7 +383,7 @@ void LogMessage::OutputToDebug(const std::string& str,
     }
   }
 #endif  // WEBRTC_WIN
-#if defined(WEBRTC_ANDROID)
+#if defined(WEBRTC_ANDROID) && !defined(PLATFORM_LUMIN)
   // Android's logging facility uses severity to log messages but we
   // need to map libjingle's severity levels to Android ones first.
   // Also write to stderr which maybe available to executable started

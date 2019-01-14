@@ -42,7 +42,7 @@
 namespace rtc {
 
 void VPrintError(const char* format, va_list args) {
-#if defined(WEBRTC_ANDROID)
+#if defined(WEBRTC_ANDROID) && !defined(PLATFORM_LUMIN)
   __android_log_vprint(ANDROID_LOG_ERROR, RTC_LOG_TAG, format, args);
 #else
   vfprintf(stderr, format, args);
