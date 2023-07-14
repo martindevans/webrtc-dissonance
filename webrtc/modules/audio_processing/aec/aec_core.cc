@@ -842,7 +842,7 @@ static void ScaledInverseFft(const OouraFft& ooura_fft,
                              int conjugate) {
   int i;
   const float normalization = scale / static_cast<float>(PART_LEN2);
-  const float sign = (conjugate ? -1 : 1);
+  const float sign = static_cast<float>(conjugate ? -1 : 1);
   time_data[0] = freq_data[0][0] * normalization;
   time_data[1] = freq_data[0][PART_LEN] * normalization;
   for (i = 1; i < PART_LEN; i++) {

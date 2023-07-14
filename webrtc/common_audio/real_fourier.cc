@@ -36,7 +36,11 @@ int RealFourier::FftOrder(size_t length) {
 
 size_t RealFourier::FftLength(int order) {
   RTC_CHECK_GE(order, 0);
+#ifdef _GAMING_XBOX
+  return static_cast<size_t>(1i64 << order);
+#else
   return static_cast<size_t>(1 << order);
+#endif
 }
 
 size_t RealFourier::ComplexLength(int order) {
