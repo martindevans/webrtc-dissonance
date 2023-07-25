@@ -832,7 +832,7 @@ static void EstBufDelayExtended(Aec* self) {
   }
 
   if (self->filtDelay == -1) {
-    self->filtDelay = WEBRTC_SPL_MAX(0, 0.5 * current_delay);
+    self->filtDelay = static_cast<int16_t>(WEBRTC_SPL_MAX(0, 0.5f * current_delay));
   } else {
     self->filtDelay = WEBRTC_SPL_MAX(
         0, static_cast<int16_t>(0.95 * self->filtDelay + 0.05 * current_delay));

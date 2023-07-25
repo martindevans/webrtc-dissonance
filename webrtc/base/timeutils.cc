@@ -69,7 +69,7 @@ int64_t SystemTimeNanos() {
   volatile LONG* last_timegettime_ptr = &last_timegettime;
 
   DWORD now =
-		#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
+		#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP) || defined(_GAMING_XBOX)
 			  (DWORD)(GetTickCount64() % std::numeric_limits<DWORD>::max());
 		#else
 			timeGetTime();
